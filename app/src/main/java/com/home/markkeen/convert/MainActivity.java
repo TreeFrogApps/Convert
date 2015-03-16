@@ -197,9 +197,15 @@ public class MainActivity extends ActionBarActivity {
                 String leftAmount = leftInputEditText.getText().toString();
                 Double leftAmountAsDouble = Double.parseDouble(leftAmount);
 
-                Quantity conversionType = new Quantity.Unit);
+                String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
+                String conversionToType = conversionToSpinner.getSelectedItem().toString();
 
-                Quantity quantity = new Quantity(leftAmountAsDouble, conversionType);
+                String myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
+
+                rightInputEditText.setText(myResult);
+
+
+
             }
 
             @Override
@@ -208,6 +214,16 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+
+
+
+    }
+
+    public String conversionUpdater(double value, Quantity.Unit currentUnit, Quantity.Unit newUnit){
+
+        Quantity currentQuantity = new Quantity(value, currentUnit);
+
+        return currentQuantity.toResult(newUnit).toString();
 
     }
 
