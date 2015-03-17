@@ -45,8 +45,6 @@ public class MainActivity extends ActionBarActivity {
         conversionTypesAdapter.setDropDownViewResource(R.layout.spinner_item);
         conversionTypesSpinner.setAdapter(conversionTypesAdapter);
 
-
-
         final ArrayAdapter<CharSequence> conversionFromAdapterTemperature
                 = ArrayAdapter.createFromResource(this, R.array.conversion_Temperature, android.R.layout.simple_spinner_item);
         conversionFromAdapterTemperature.setDropDownViewResource(R.layout.spinner_item);
@@ -183,8 +181,6 @@ public class MainActivity extends ActionBarActivity {
     public void initialiseEditTexts(){
 
         leftInputEditText = (EditText) findViewById(R.id.leftInputEditText);
-        rightInputEditText = (EditText) findViewById(R.id.rightInputEditText);
-
         leftInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -194,23 +190,70 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                String leftAmount = leftInputEditText.getText().toString();
-                Double leftAmountAsDouble = Double.parseDouble(leftAmount);
+                if (leftInputEditText.isFocused()){
 
-                String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
-                String conversionToType = conversionToSpinner.getSelectedItem().toString();
+                    String leftAmount = leftInputEditText.getText().toString();
 
-                String myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
+                    if (!leftAmount.equals("")){
 
-                rightInputEditText.setText(myResult);
+                        Double leftAmountAsDouble = Double.parseDouble(leftAmount);
+
+                        String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
+                        conversionFromType = conversionFromType.replaceAll(" +", "");
+                        String conversionToType = conversionToSpinner.getSelectedItem().toString();
+                        conversionToType = conversionToType.replaceAll(" +", "");
 
 
+                        String myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
+
+                        rightInputEditText.setText(myResult);
+                    }
+
+                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 // TODO
+            }
+        });
+
+        rightInputEditText = (EditText) findViewById(R.id.rightInputEditText);
+        rightInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (rightInputEditText.isFocused()){
+
+                    String rightAmount = rightInputEditText.getText().toString();
+
+                    if (!rightAmount.equals("")){
+
+                        Double rightAmountAsDouble = Double.parseDouble(rightAmount);
+
+                        String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
+                        conversionFromType = conversionFromType.replaceAll(" +", "");
+                        String conversionToType = conversionToSpinner.getSelectedItem().toString();
+                        conversionToType = conversionToType.replaceAll(" +", "");
+
+                        String myResult = conversionUpdater(rightAmountAsDouble, Quantity.Unit.valueOf(conversionToType), Quantity.Unit.valueOf(conversionFromType));
+
+                        leftInputEditText.setText(myResult);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 

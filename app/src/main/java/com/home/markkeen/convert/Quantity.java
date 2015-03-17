@@ -10,7 +10,9 @@ public class Quantity {
 
     public static enum Unit {
 
-        Celsius(1.0d), Fahrenheit(33.8d), Kelvin(274.15);
+        Celsius(1.0d), Fahrenheit(33.8d), Kelvin(274.15),
+
+        Kilometer(1.0d), Meter(1000.0d), Centimeter(100000.0d), Millimeter(1000000.0d), Mile(0.6214d), Yard(1093.61d), Foot(3280.84d), Inch(39370.1d), NauticalMile(0.54d);
 
         final double baseUnit;
 
