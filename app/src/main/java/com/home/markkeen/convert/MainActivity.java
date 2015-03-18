@@ -196,19 +196,26 @@ public class MainActivity extends ActionBarActivity {
 
                     if (!leftAmount.equals("")){
 
-                        Double leftAmountAsDouble = Double.parseDouble(leftAmount);
+                        if (conversionToSpinner.getSelectedItem().toString().equals(conversionFromSpinner.getSelectedItem().toString())){
 
-                        String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
-                        conversionFromType = conversionFromType.replaceAll(" +", "");
-                        String conversionToType = conversionToSpinner.getSelectedItem().toString();
-                        conversionToType = conversionToType.replaceAll(" +", "");
+                            rightInputEditText.setText(leftAmount);
+                        }
+
+                        else {
+
+                            Double leftAmountAsDouble = Double.parseDouble(leftAmount);
+
+                            String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
+                            conversionFromType = conversionFromType.replaceAll(" +", "");
+                            String conversionToType = conversionToSpinner.getSelectedItem().toString();
+                            conversionToType = conversionToType.replaceAll(" +", "");
 
 
-                        String myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
+                            String myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
 
-                        rightInputEditText.setText(myResult);
+                            rightInputEditText.setText(myResult);
+                        }
                     }
-
                 }
 
             }
@@ -235,16 +242,26 @@ public class MainActivity extends ActionBarActivity {
 
                     if (!rightAmount.equals("")){
 
-                        Double rightAmountAsDouble = Double.parseDouble(rightAmount);
+                        if (conversionFromSpinner.getSelectedItem().toString().equals(conversionToSpinner.getSelectedItem().toString())){
 
-                        String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
-                        conversionFromType = conversionFromType.replaceAll(" +", "");
-                        String conversionToType = conversionToSpinner.getSelectedItem().toString();
-                        conversionToType = conversionToType.replaceAll(" +", "");
+                            leftInputEditText.setText(rightAmount);
+                        }
 
-                        String myResult = conversionUpdater(rightAmountAsDouble, Quantity.Unit.valueOf(conversionToType), Quantity.Unit.valueOf(conversionFromType));
+                        else {
 
-                        leftInputEditText.setText(myResult);
+                            Double rightAmountAsDouble = Double.parseDouble(rightAmount);
+
+                            String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
+                            conversionFromType = conversionFromType.replaceAll(" +", "");
+                            String conversionToType = conversionToSpinner.getSelectedItem().toString();
+                            conversionToType = conversionToType.replaceAll(" +", "");
+
+                            String myResult = conversionUpdater(rightAmountAsDouble, Quantity.Unit.valueOf(conversionToType), Quantity.Unit.valueOf(conversionFromType));
+
+                            leftInputEditText.setText(myResult);
+
+                        }
+
                     }
 
 

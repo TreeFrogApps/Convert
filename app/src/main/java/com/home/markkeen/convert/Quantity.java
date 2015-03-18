@@ -1,8 +1,6 @@
 package com.home.markkeen.convert;
 
 
-import java.text.DecimalFormat;
-
 public class Quantity {
 
     final double value;
@@ -51,9 +49,11 @@ public class Quantity {
     @Override
     public String toString(){
 
-        DecimalFormat df = new DecimalFormat("#.0000");
+        String sf = String.format("%.4f", value);
 
-        return df.format(value);
+        sf = sf.replaceAll("0*$", "").replaceAll("\\.$", "");
+
+        return sf;
     }
 
 
