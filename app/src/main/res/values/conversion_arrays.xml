@@ -34,6 +34,7 @@
     <string-array name="conversion_Mass">
         <item>Metric ton</item>
         <item>Kilogram</item>
+        <item>Gram</item>
         <item>Milligram</item>
         <item>Mcg</item>
         <item>Long ton</item>
@@ -84,15 +85,13 @@
     </string-array>
 
     <string-array name="conversion_Fuel_Consumption">
-        <item>MPG (US)</item>
-        <item>MPG (imperial)</item>
-        <item>Km/liter</item>
-        <item>Liter/100km</item>
+        <item>MPG US</item>
+        <item>MPG Imperial</item>
+        <item>Km per liter</item>
+        <item>Liter per 100km</item>
     </string-array>
 
     <string-array name="conversion_Time">
-        <item>Nanosecond</item>
-        <item>Microsecond</item>
         <item>Millisecond</item>
         <item>Second</item>
         <item>Minute</item>
@@ -101,8 +100,6 @@
         <item>Week</item>
         <item>Month</item>
         <item>Year</item>
-        <item>Decade</item>
-        <item>Century</item>
     </string-array>
 
     <string-array name="conversion_Digital_Storage">

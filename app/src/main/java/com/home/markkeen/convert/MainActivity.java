@@ -252,7 +252,7 @@ public class MainActivity extends ActionBarActivity {
                             Double rightAmountAsDouble = Double.parseDouble(rightAmount);
 
                             String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
-                            conversionFromType = conversionFromType.replaceAll(" +", "");
+                            conversionFromType = conversionFromType.replaceAll(" +", "").replaceAll(".", "");
                             String conversionToType = conversionToSpinner.getSelectedItem().toString();
                             conversionToType = conversionToType.replaceAll(" +", "");
 
