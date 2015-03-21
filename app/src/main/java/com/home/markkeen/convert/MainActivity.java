@@ -33,17 +33,17 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-    public void initialiseAdapters(){
+    public void initialiseAdapters() {
 
         conversionTypesSpinner = (Spinner) findViewById(R.id.conversionTypesSpinner);
-        conversionFromSpinner = (Spinner) findViewById(R.id.conversionFromSpinner);
-        conversionToSpinner = (Spinner) findViewById(R.id.conversionToSpinner);
-
 
         ArrayAdapter<CharSequence> conversionTypesAdapter
                 = ArrayAdapter.createFromResource(this, R.array.conversion_types, android.R.layout.simple_spinner_item);
         conversionTypesAdapter.setDropDownViewResource(R.layout.spinner_item);
         conversionTypesSpinner.setAdapter(conversionTypesAdapter);
+
+        conversionFromSpinner = (Spinner) findViewById(R.id.conversionFromSpinner);
+        conversionToSpinner = (Spinner) findViewById(R.id.conversionToSpinner);
 
         final ArrayAdapter<CharSequence> conversionFromAdapterTemperature
                 = ArrayAdapter.createFromResource(this, R.array.conversion_Temperature, android.R.layout.simple_spinner_item);
@@ -121,27 +121,28 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if(position == 0){
+                if (position == 0) {
 
                     conversionFromSpinner.setAdapter(conversionFromAdapterTemperature);
                     conversionToSpinner.setAdapter(conversionToAdapterTemperature);
 
-                } else if (position == 1){
+                } else if (position == 1) {
 
                     conversionFromSpinner.setAdapter(conversionFromAdapterLength);
                     conversionToSpinner.setAdapter(conversionToAdapterLength);
 
-                } else if (position == 2){
+
+                } else if (position == 2) {
 
                     conversionFromSpinner.setAdapter(conversionFromAdapterMass);
                     conversionToSpinner.setAdapter(conversionToAdapterMass);
 
-                } else if (position == 3){
+                } else if (position == 3) {
 
                     conversionFromSpinner.setAdapter(conversionFromAdapterSpeed);
                     conversionToSpinner.setAdapter(conversionToAdapterSpeed);
 
-                } else if (position == 4){
+                } else if (position == 4) {
 
                     conversionFromSpinner.setAdapter(conversionFromAdapterVolume);
                     conversionToSpinner.setAdapter(conversionToAdapterVolume);
@@ -151,12 +152,12 @@ public class MainActivity extends ActionBarActivity {
                     conversionFromSpinner.setAdapter(conversionFromAdapterArea);
                     conversionToSpinner.setAdapter(conversionToAdapterArea);
 
-                } else if (position == 6){
+                } else if (position == 6) {
 
                     conversionFromSpinner.setAdapter(conversionFromAdapterFuel);
                     conversionToSpinner.setAdapter(conversionToAdapterFuel);
 
-                } else if (position == 7){
+                } else if (position == 7) {
 
                     conversionFromSpinner.setAdapter(conversionFromAdapterTime);
                     conversionToSpinner.setAdapter(conversionToAdapterTime);
@@ -167,6 +168,22 @@ public class MainActivity extends ActionBarActivity {
                     conversionToSpinner.setAdapter(conversionToAdapterDigitalStorage);
                 }
 
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        conversionFromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                rightInputEditText.requestFocus();
+
+                int right = 1;
+                conversionWatcher(right);
 
             }
 
@@ -176,9 +193,26 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        conversionToSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                leftInputEditText.requestFocus();
+
+                int left = 0;
+                conversionWatcher(left);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
     }
 
-    public void initialiseEditTexts(){
+    public void initialiseEditTexts() {
 
         leftInputEditText = (EditText) findViewById(R.id.leftInputEditText);
         leftInputEditText.addTextChangedListener(new TextWatcher() {
@@ -190,34 +224,11 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (leftInputEditText.isFocused()){
+                if (leftInputEditText.isFocused()) {
 
-                    String leftAmount = leftInputEditText.getText().toString();
-
-                    if (!leftAmount.equals("")){
-
-                        if (conversionToSpinner.getSelectedItem().toString().equals(conversionFromSpinner.getSelectedItem().toString())){
-
-                            rightInputEditText.setText(leftAmount);
-                        }
-
-                        else {
-
-                            Double leftAmountAsDouble = Double.parseDouble(leftAmount);
-
-                            String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
-                            conversionFromType = conversionFromType.replaceAll(" +", "");
-                            String conversionToType = conversionToSpinner.getSelectedItem().toString();
-                            conversionToType = conversionToType.replaceAll(" +", "");
-
-
-                            String myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
-
-                            rightInputEditText.setText(myResult);
-                        }
-                    }
+                    int left = 0;
+                    conversionWatcher(left);
                 }
-
             }
 
             @Override
@@ -236,35 +247,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (rightInputEditText.isFocused()){
+                if (rightInputEditText.isFocused()) {
 
-                    String rightAmount = rightInputEditText.getText().toString();
-
-                    if (!rightAmount.equals("")){
-
-                        if (conversionFromSpinner.getSelectedItem().toString().equals(conversionToSpinner.getSelectedItem().toString())){
-
-                            leftInputEditText.setText(rightAmount);
-                        }
-
-                        else {
-
-                            Double rightAmountAsDouble = Double.parseDouble(rightAmount);
-
-                            String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
-                            conversionFromType = conversionFromType.replaceAll(" +", "").replaceAll(".", "");
-                            String conversionToType = conversionToSpinner.getSelectedItem().toString();
-                            conversionToType = conversionToType.replaceAll(" +", "");
-
-                            String myResult = conversionUpdater(rightAmountAsDouble, Quantity.Unit.valueOf(conversionToType), Quantity.Unit.valueOf(conversionFromType));
-
-                            leftInputEditText.setText(myResult);
-
-                        }
-
-                    }
-
-
+                    int right = 1;
+                    conversionWatcher(right);
                 }
             }
 
@@ -273,18 +259,89 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-
-
-
-
     }
 
-    public String conversionUpdater(double value, Quantity.Unit currentUnit, Quantity.Unit newUnit){
+
+    public void conversionWatcher(int fromInput) {
+
+        String conversionFromType = conversionFromSpinner.getSelectedItem().toString();
+        conversionFromType = conversionFromType.replaceAll("[ ]+", "").replaceAll("[.]*$", "");
+        String conversionToType = conversionToSpinner.getSelectedItem().toString();
+        conversionToType = conversionToType.replaceAll("[ ]+", "").replaceAll("[.]*$", "");
+
+
+        if (fromInput == 0) {
+
+            String leftAmount = leftInputEditText.getText().toString();
+
+            if (!leftAmount.equals("") && !leftAmount.equals("-")) {
+
+                if (conversionToSpinner.getSelectedItem().toString().equals(conversionFromSpinner.getSelectedItem().toString())) {
+                    rightInputEditText.setText(leftAmount);
+                } else {
+
+                    Double leftAmountAsDouble = Double.parseDouble(leftAmount);
+                    String myResult;
+
+                    if (conversionTypesSpinner.getSelectedItemPosition() == 0) {
+                        myResult = conversionUpdaterTemperature(leftAmountAsDouble, conversionFromType, conversionToType);
+                        rightInputEditText.setText(myResult);
+
+                    } else {
+                        myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
+                        rightInputEditText.setText(myResult);
+
+                    }
+
+                }
+            }
+        }
+
+        if (fromInput == 1) {
+
+            String rightAmount = rightInputEditText.getText().toString();
+
+            if (!rightAmount.equals("") && !rightAmount.equals("-")) {
+
+                if (conversionFromSpinner.getSelectedItem().toString().equals(conversionToSpinner.getSelectedItem().toString())) {
+                    leftInputEditText.setText(rightAmount);
+
+                } else {
+
+                    Double rightAmountAsDouble = Double.parseDouble(rightAmount);
+                    String myResult;
+
+                    if (conversionTypesSpinner.getSelectedItemPosition() == 0) {
+                        myResult = conversionUpdaterTemperature(rightAmountAsDouble, conversionToType, conversionFromType);
+                        leftInputEditText.setText(myResult);
+
+                    } else {
+                        myResult = conversionUpdater(rightAmountAsDouble, Quantity.Unit.valueOf(conversionToType), Quantity.Unit.valueOf(conversionFromType));
+                        leftInputEditText.setText(myResult);
+
+                    }
+
+
+                }
+
+            }
+
+        }
+    }
+
+
+    public String conversionUpdater(double value, Quantity.Unit currentUnit, Quantity.Unit newUnit) {
 
         Quantity currentQuantity = new Quantity(value, currentUnit);
 
         return currentQuantity.toResult(newUnit).toString();
+    }
 
+    public String conversionUpdaterTemperature(double value, String fromUnit, String toUnit) {
+
+        TemperatureQuantity temperatureConverter = new TemperatureQuantity(value, fromUnit, toUnit);
+
+        return temperatureConverter.convert(value).toString();
     }
 
 
