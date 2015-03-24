@@ -228,6 +228,10 @@ public class MainActivity extends ActionBarActivity {
 
                     int left = 0;
                     conversionWatcher(left);
+
+                    if (leftInputEditText.length() == 0){
+                        rightInputEditText.setText("");
+                    }
                 }
             }
 
@@ -251,6 +255,10 @@ public class MainActivity extends ActionBarActivity {
 
                     int right = 1;
                     conversionWatcher(right);
+
+                    if (rightInputEditText.length() == 0){
+                        leftInputEditText.setText("");
+                    }
                 }
             }
 
@@ -274,7 +282,7 @@ public class MainActivity extends ActionBarActivity {
 
             String leftAmount = leftInputEditText.getText().toString();
 
-            if (!leftAmount.equals("") && !leftAmount.equals("-")) {
+            if (numberFormatChecker(leftAmount)) {
 
                 if (conversionToSpinner.getSelectedItem().toString().equals(conversionFromSpinner.getSelectedItem().toString())) {
                     rightInputEditText.setText(leftAmount);
@@ -290,9 +298,7 @@ public class MainActivity extends ActionBarActivity {
                     } else {
                         myResult = conversionUpdater(leftAmountAsDouble, Quantity.Unit.valueOf(conversionFromType), Quantity.Unit.valueOf(conversionToType));
                         rightInputEditText.setText(myResult);
-
                     }
-
                 }
             }
         }
@@ -301,7 +307,7 @@ public class MainActivity extends ActionBarActivity {
 
             String rightAmount = rightInputEditText.getText().toString();
 
-            if (!rightAmount.equals("") && !rightAmount.equals("-")) {
+            if (numberFormatChecker(rightAmount)) {
 
                 if (conversionFromSpinner.getSelectedItem().toString().equals(conversionToSpinner.getSelectedItem().toString())) {
                     leftInputEditText.setText(rightAmount);
@@ -320,12 +326,8 @@ public class MainActivity extends ActionBarActivity {
                         leftInputEditText.setText(myResult);
 
                     }
-
-
                 }
-
             }
-
         }
     }
 
@@ -342,6 +344,20 @@ public class MainActivity extends ActionBarActivity {
         TemperatureQuantity temperatureConverter = new TemperatureQuantity(value, fromUnit, toUnit);
 
         return temperatureConverter.convert(value).toString();
+    }
+
+    public boolean numberFormatChecker(String stringToCheck) {
+
+        switch (stringToCheck) {
+            case "":
+                return false;
+            case "-":
+                return false;
+            case "+":
+                return false;
+            default:
+                return true;
+        }
     }
 
 
